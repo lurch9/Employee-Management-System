@@ -13,6 +13,8 @@ const db = mysql.createConnection({
 
 const query = util.promisify(db.query).bind(db); 
 
+
+
 const init = async () => {
 
 
@@ -40,7 +42,10 @@ const init = async () => {
 
 
             case "View All Employees":
-                console.table(query("SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager FROM employee INNER JOIN role on employee.role_id = role.id INNER JOIN department on role.department_id = department.id INNER JOIN employee manager on manager.id = employee.manager_id;"));
+                
+                display("SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager FROM employee INNER JOIN role on employee.role_id = role.id INNER JOIN department on role.department_id = department.id INNER JOIN employee manager on manager.id = employee.manager_id;");
+                
+                
                 inquirer.prompt([
                     {
                         message: "Would you like to do something else?",
@@ -61,7 +66,7 @@ const init = async () => {
 
             case "View All Roles":
                 
-                console.table(query("SELECT role.id AS id, role.title AS title, department.name AS department, role.salary AS salary FROM role INNER JOIN department ON role.department_id = department.id ORDER BY role.id; "));
+                display("SELECT role.id AS id, role.title AS title, department.name AS department, role.salary AS salary FROM role INNER JOIN department ON role.department_id = department.id ORDER BY role.id; ");
                 inquirer.prompt([
                     {
                         message: "Would you like to do something else?",
@@ -82,7 +87,8 @@ const init = async () => {
                 
 
             case "View All Departments":
-                console.table(query("SELECT * FROM department "));
+                
+                display("SELECT * FROM department");
                 inquirer.prompt([
                     {
                         message: "Would you like to do something else?",
@@ -272,4 +278,11 @@ const init = async () => {
     })
 }
 
+
 init();
+
+
+const display = async (queryParams) => {
+    const res = await query(queryParams);
+    console.table(res);
+}
