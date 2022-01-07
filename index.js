@@ -200,10 +200,9 @@ const init = async () => {
                  },
 
                  {
-                    type:'list',
+                    type:'input',
                     message: 'Select the manager of the employee. \n\n',
-                    name: 'employeeManager',
-                    choices: managers.map((item) => ({name: item.first_name + ' ' + item.last_name, value: item.id}))
+                    name: 'employeeManager'
 
                  }
 
