@@ -41,19 +41,64 @@ const init = async () => {
 
             case "View All Employees":
                 console.table(query("SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager FROM employee INNER JOIN role on employee.role_id = role.id INNER JOIN department on role.department_id = department.id INNER JOIN employee manager on manager.id = employee.manager_id;"));
+                inquirer.prompt([
+                    {
+                        message: "Would you like to do something else?",
+                        type: "list",
+                        name: "returnHome",
+                        choices: ["Yes", "No, Exit"]
                 
+                    }]).then(response => {
+                        switch(response.returnHome) {
+                            case "Yes":
+                                init();
+                                break;
+                            case "No, Exit":
+                                return;
+                        }
+                    });
                 break;
 
             case "View All Roles":
                 
                 console.table(query("SELECT role.id AS id, role.title AS title, department.name AS department, role.salary AS salary FROM role INNER JOIN department ON role.department_id = department.id ORDER BY role.id; "));
+                inquirer.prompt([
+                    {
+                        message: "Would you like to do something else?",
+                        type: "list",
+                        name: "returnHome",
+                        choices: ["Yes", "No, Exit"]
                 
+                    }]).then(response => {
+                        switch(response.returnHome) {
+                            case "Yes":
+                                init();
+                                break;
+                            case "No, Exit":
+                                return;
+                        }
+                    });
                 break;
                 
 
             case "View All Departments":
                 console.table(query("SELECT * FROM department "));
+                inquirer.prompt([
+                    {
+                        message: "Would you like to do something else?",
+                        type: "list",
+                        name: "returnHome",
+                        choices: ["Yes", "No, Exit"]
                 
+                    }]).then(response => {
+                        switch(response.returnHome) {
+                            case "Yes":
+                                init();
+                                break;
+                            case "No, Exit":
+                                return;
+                        }
+                    });
                 break;
 
             case "Add Department":
@@ -64,7 +109,24 @@ const init = async () => {
                 }).then((response) => {
                     query(`INSERT INTO department(name) VALUES ("${response.addDepartment}")`)
                     console.log(`${response.addDepartment} added to departments`);
-                })
+                }).then(function(){
+                    inquirer.prompt([
+                        {
+                            message: "Would you like to do something else?",
+                            type: "list",
+                            name: "returnHome",
+                            choices: ["Yes", "No, Exit"]
+                    
+                        }]).then(response => {
+                            switch(response.returnHome) {
+                                case "Yes":
+                                    init();
+                                    break;
+                                case "No, Exit":
+                                    return;
+                            }
+                        });
+                });
                 
                 break;
 
@@ -92,8 +154,24 @@ const init = async () => {
                     query(`INSERT INTO role(title,salary,department_id) VALUES ("${response.addRole}", "${response.addSalary}", "${response.employeeDepartment}")`);
                     console.log(`${response.addRole} has been added to roles`);
                     
-            })
-           
+            }).then(function(){
+                inquirer.prompt([
+                    {
+                        message: "Would you like to do something else?",
+                        type: "list",
+                        name: "returnHome",
+                        choices: ["Yes", "No, Exit"]
+                
+                    }]).then(response => {
+                        switch(response.returnHome) {
+                            case "Yes":
+                                init();
+                                break;
+                            case "No, Exit":
+                                return;
+                        }
+                    });
+            });
                 break;
 
 
@@ -128,8 +206,24 @@ const init = async () => {
             ]).then((response) => {
                     query(`INSERT INTO employee(first_name,last_name,role_id,manager_id) VALUES ("${response.firstName}", "${response.lastName}", "${response.employeeRole}", "${response.employeeManager}")`);
                     console.log("New employee successfully added");
-                })
-                
+                }).then(function(){
+                    inquirer.prompt([
+                        {
+                            message: "Would you like to do something else?",
+                            type: "list",
+                            name: "returnHome",
+                            choices: ["Yes", "No, Exit"]
+                    
+                        }]).then(response => {
+                            switch(response.returnHome) {
+                                case "Yes":
+                                    init();
+                                    break;
+                                case "No, Exit":
+                                    return;
+                            }
+                        });
+                });
                 break;
 
 
@@ -150,8 +244,24 @@ const init = async () => {
                  }]).then((response) => {
                     query(`UPDATE employee SET employee.role_id = ${response.updateEmployeeRole} WHERE employee.id = ${response.updateEmployee}`);
                     console.log("Successfully updated employee role.");
-                 })
-                 
+                 }).then(function(){
+                    inquirer.prompt([
+                        {
+                            message: "Would you like to do something else?",
+                            type: "list",
+                            name: "returnHome",
+                            choices: ["Yes", "No, Exit"]
+                    
+                        }]).then(response => {
+                            switch(response.returnHome) {
+                                case "Yes":
+                                    init();
+                                    break;
+                                case "No, Exit":
+                                    return;
+                            }
+                        });
+                });
                 break;
             case "Exit":
                 return;
