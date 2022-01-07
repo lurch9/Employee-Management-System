@@ -18,8 +18,6 @@ const query = util.promisify(db.query).bind(db);
 const init = async () => {
 
 
-    const managers = await query("SELECT employee.id AS id, employee.first_name AS first_name, employee.last_name AS last_name, role.title AS TITLE FROM employee INNER JOIN role ON employee.role_id = role.id WHERE role.title='Manager'");
-
     const roles = await query("SELECT * FROM role");
 
     const employees = await query("SELECT * FROM employee");
